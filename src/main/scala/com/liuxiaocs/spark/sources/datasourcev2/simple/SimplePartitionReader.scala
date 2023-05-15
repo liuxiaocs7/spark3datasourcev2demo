@@ -20,5 +20,5 @@ class SimplePartitionReader extends PartitionReader[InternalRow] {
     row
   }
 
-  override def close(): Unit = {}
+  override def close(): Unit = Unit
 }

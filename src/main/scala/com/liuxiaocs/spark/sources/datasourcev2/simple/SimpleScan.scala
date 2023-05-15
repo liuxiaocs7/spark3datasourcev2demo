@@ -14,5 +14,5 @@ class SimpleScan extends Scan with Batch {
     Array(new SimplePartition())
   }
 
-  override def createReaderFactory(): PartitionReaderFactory = new SimplePartitionReaderFactory()
+  override def createReaderFactory(): PartitionReaderFactory = new SimplePartitionReaderFactory
 }
