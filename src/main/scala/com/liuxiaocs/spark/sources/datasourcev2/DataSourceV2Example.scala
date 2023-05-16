@@ -1,6 +1,6 @@
 package com.liuxiaocs.spark.sources.datasourcev2
 
-import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.{SaveMode, SparkSession}
 
 object DataSourceV2Example {
   def main(args: Array[String]): Unit = {
@@ -8,6 +8,7 @@ object DataSourceV2Example {
     val sparkSession = SparkSession.builder()
       .master("local[*]")
       .appName(this.getClass.getSimpleName)
+      .config("spark.ui.port", "9091")
       .getOrCreate()
 
     val simpleDF = sparkSession
@@ -31,5 +32,18 @@ object DataSourceV2Example {
     simpleCsvDF.printSchema()
     simpleCsvDF.show()
     println(s"number of partitions in simple csv source is ${simpleCsvDF.rdd.getNumPartitions}")
+
+    val simpleMysqlDF = sparkSession.createDataFrame(Seq(
+      Tuple1("test1"),
+      Tuple1("test2")
+    )).toDF("user")
+
+    // writer examples
+    simpleMysqlDF.write
+      .format("com.liuxiaocs.spark.sources.datasourcev2.simplemysql")
+      .mode(SaveMode.Append)
+      .save()
+
+    sparkSession.stop()
   }
 }
