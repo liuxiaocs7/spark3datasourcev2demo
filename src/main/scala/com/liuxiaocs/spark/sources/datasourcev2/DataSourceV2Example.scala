@@ -24,5 +24,12 @@ object DataSourceV2Example {
     simpleMultiDF.show()
     println(s"number of partitions in simple multi source is ${simpleMultiDF.rdd.getNumPartitions}")
 
+    val simpleCsvDF = sparkSession
+      .read.format("com.liuxiaocs.spark.sources.datasourcev2.simplecsv")
+      .load("src/main/resources/co2emissions.csv")
+
+    simpleCsvDF.printSchema()
+    simpleCsvDF.show()
+    println(s"number of partitions in simple csv source is ${simpleCsvDF.rdd.getNumPartitions}")
   }
 }
